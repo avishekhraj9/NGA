@@ -1,3 +1,9 @@
+﻿# Visual Studio
 .vs/
+.vscode/
 bin/
 obj/
+*.user
+*.suo
+*.sln.docstates
+packages/
