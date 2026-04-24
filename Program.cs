@@ -3,32 +3,31 @@ using System;
 
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        BankAccount account = new BankAccount("Avishekh", 5000);
+        // Create objects
+        OrderProcessor processor = new OrderProcessor();
 
-        try
-        {
-            account.Deposit(2000);     // valid
-            account.Withdraw(7000);    // invalid
-        }
-        catch (InvalidAmountException ex)
-        {
-            Console.WriteLine("Invalid Amount Error: " + ex.Message);
-        }
-        catch (InsufficientBalanceException ex)
-        {
-            Console.WriteLine("Balance Error: " + ex.Message);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("General Error: " + ex.Message);
-        }
-        finally
-        {
-            Console.WriteLine("Transaction Completed");
-        }
+        EmailService emailService = new EmailService();
+        SMSService smsService = new SMSService();
+        LoggerService loggerService = new LoggerService();
 
-        account.CheckBalance();
+        // Subscribe methods
+        processor.OnOrderPlaced += emailService.SendEmail;
+        processor.OnOrderPlaced += smsService.SendSMS;
+        processor.OnOrderPlaced += loggerService.LogOrder;
+
+        // Create order
+        Order order = new Order
+        {
+            OrderId = 101,
+            CustomerName = "Avishek",
+            Amount = 5000
+        };
+
+        // Place order
+        processor.PlaceOrder(order);
+
+        Console.ReadLine();
     }
 }
