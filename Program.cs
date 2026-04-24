@@ -1,144 +1,141 @@
-﻿using System;
+﻿// See https://aka.ms/new-console-template for more information
+// Banking Transaction System
+
+using System;
 using System.Collections.Generic;
 
-class Customer
+class Transaction
 {
-    public int CustomerId { get; set; }
-    public string Name { get; set; }
+    public string TransactionId;
+    public double Amount;
+
+    public Transaction(string transactionId, double amount)
+    {
+        TransactionId = transactionId;
+        Amount = amount;
+    }
 }
 
-class Order
+class BankingSystem
 {
-    public int OrderId { get; set; }
-    public int CustomerId { get; set; }
-    public string Product { get; set; }
-    public string Category { get; set; }
+    private List<Transaction> transactionHistory = new List<Transaction>();
+    private Dictionary<string, double> accountBalances = new Dictionary<string, double>();
+    private Queue<Transaction> pendingTransaction = new Queue<Transaction>();
+    private Stack<Transaction> rollbackStack = new Stack<Transaction>();
+    private HashSet<string> transactionIds = new HashSet<string>();
 
-    public Stack<string> StatusHistory { get; set; } = new Stack<string>();
+    public void CreateAccount(string accountId, double initialBalance)
+    {
+        accountBalances[accountId] = initialBalance;
+        Console.WriteLine("Account created: " + accountId + " with balance: " + initialBalance);
+    }
+
+    public void AddTransaction(string transactionId, double amount)
+    {
+        if (transactionIds.Contains(transactionId))
+        {
+            Console.WriteLine("Transaction ID already exists: " + transactionId);
+            return;
+        }
+        Transaction transaction = new Transaction(transactionId, amount);
+        pendingTransaction.Enqueue(transaction);
+        transactionIds.Add(transactionId);
+        Console.WriteLine("Transaction added: " + transactionId + " with amount: " + amount);
+    }
+
+    public void ProcessTransaction(string accoundId)
+    {
+        if (pendingTransaction.Count == 0)
+        {
+            Console.WriteLine("No pending transactions to process.");
+            return;
+        }
+        if (!accountBalances.ContainsKey(accoundId))
+        {
+            Console.WriteLine("Account does not exist: " + accoundId);
+            return;
+        }
+        Transaction transaction = pendingTransaction.Dequeue();
+        accountBalances[accoundId] += transaction.Amount;
+        transactionHistory.Add(transaction);
+        rollbackStack.Push(transaction);
+        Console.WriteLine($"Processed transaction: {transaction.TransactionId} for account: {accoundId}. New balance: {accountBalances[accoundId]}");
+    }
+
+
+    public void RollbackTransaction(string accoundId)
+    {
+        if (rollbackStack.Count == 0)
+        {
+            Console.WriteLine("No transactions to rollback.");
+            return;
+        }
+        if (!accountBalances.ContainsKey(accoundId))
+        {
+            Console.WriteLine("Account does not exist: " + accoundId);
+            return;
+        }
+        Transaction transaction = rollbackStack.Pop();
+        accountBalances[accoundId] -= transaction.Amount;
+        transactionHistory.Remove(transaction);
+        Console.WriteLine($"Rolled back transaction: {transaction.TransactionId} for account: {accoundId}. New balance: {accountBalances[accoundId]}");
+    }
+
+
+    public void ShowBalance(string accountId)
+    {
+        if (accountBalances.ContainsKey(accountId))
+        {
+            Console.WriteLine("Account: " + accountId + ", Balance: " + accountBalances[accountId]);
+        }
+        else
+        {
+            Console.WriteLine("Account does not exist: " + accountId);
+        }
+    }
+
+
+    public void ShowHistory()
+    {
+        Console.WriteLine("Transaction History:");
+        foreach (var transaction in transactionHistory)
+        {
+            Console.WriteLine($"Transaction ID: {transaction.TransactionId}, Amount: {transaction.Amount}");
+        }
+    }
+
 }
+
+
+
+
+
 
 class Program
 {
-    static List<Order> orders = new List<Order>();
-    static Dictionary<int, Customer> customers = new Dictionary<int, Customer>();
-    static HashSet<string> categories = new HashSet<string>();
-    static Queue<Order> orderQueue = new Queue<Order>();
-
-    static int orderCounter = 1;
-
     static void Main()
     {
-        //9620804863
+        BankingSystem bank = new BankingSystem();
+        bank.CreateAccount("A001", 1000);
 
-          //  08065159555
-        while (true)
-        {
-            Console.WriteLine("\n--- E-Commerce Order System ---");
-            Console.WriteLine("1. Add Customer");
-            Console.WriteLine("2. Place Order");
-            Console.WriteLine("3. Process Order");
-            Console.WriteLine("4. View Orders");
-            Console.WriteLine("5. View Categories");
-            Console.WriteLine("6. Exit");
+        bank.AddTransaction("T001", 200);
+        bank.AddTransaction("T002", -150);
+        bank.AddTransaction("T003", 300);
 
-            Console.Write("Choose option: ");
-            int choice = int.Parse(Console.ReadLine());
 
-            switch (choice)
-            {
-                case 1: AddCustomer(); break;
-                case 2: PlaceOrder(); break;
-                case 3: ProcessOrder(); break;
-                case 4: ViewOrders(); break;
-                case 5: ViewCategories(); break;
-                case 6: return;
-                default: Console.WriteLine("Invalid choice"); break;
-            }
-        }
-    }
+        bank.ProcessTransaction("A001");
+        bank.ProcessTransaction("A001");
 
-    static void AddCustomer()
-    {
-        Console.Write("Enter Customer ID: ");
-        int id = int.Parse(Console.ReadLine());
 
-        Console.Write("Enter Name: ");
-        string name = Console.ReadLine();
+        bank.ShowBalance("A001");
 
-        customers[id] = new Customer { CustomerId = id, Name = name };
 
-        Console.WriteLine("Customer added!");
-    }
+        bank.ShowHistory();
 
-    static void PlaceOrder()
-    {
-        Console.Write("Enter Customer ID: ");
-        int custId = int.Parse(Console.ReadLine());
+        bank.RollbackTransaction("A001");
 
-        if (!customers.ContainsKey(custId))
-        {
-            Console.WriteLine("Customer not found!");
-            return;
-        }
+        bank.ShowBalance("A001");
 
-        Console.Write("Enter Product: ");
-        string product = Console.ReadLine();
-
-        Console.Write("Enter Category: ");
-        string category = Console.ReadLine();
-
-        Order order = new Order
-        {
-            OrderId = orderCounter++,
-            CustomerId = custId,
-            Product = product,
-            Category = category
-        };
-
-        order.StatusHistory.Push("Order Placed");
-
-        orders.Add(order);
-        orderQueue.Enqueue(order);
-        categories.Add(category);
-
-        Console.WriteLine("Order placed successfully!");
-    }
-
-    static void ProcessOrder()
-    {
-        if (orderQueue.Count == 0)
-        {
-            Console.WriteLine("No orders to process!");
-            return;
-        }
-
-        Order order = orderQueue.Dequeue();
-        order.StatusHistory.Push("Processed");
-
-        Console.WriteLine($"Order {order.OrderId} processed.");
-    }
-
-    static void ViewOrders()
-    {
-        foreach (var order in orders)
-        {
-            Console.WriteLine($"OrderID: {order.OrderId}, Product: {order.Product}");
-
-            Console.Write("Status History: ");
-            foreach (var status in order.StatusHistory)
-            {
-                Console.Write(status + " -> ");
-            }
-            Console.WriteLine();
-        }
-    }
-
-    static void ViewCategories()
-    {
-        Console.WriteLine("Unique Categories:");
-        foreach (var cat in categories)
-        {
-            Console.WriteLine(cat);
-        }
     }
 }
+
