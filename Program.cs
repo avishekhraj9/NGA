@@ -1,109 +1,105 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-// music playlist manager
-using System;
+﻿using System;
 using System.Collections.Generic;
-class MusicPlaylistManager
+
+class TaskScheduler
 {
-    LinkedList<string> playlist = new LinkedList<string>();
+    Queue<string> taskQueue = new Queue<string>();
+    Stack<string> undoStack = new Stack<string>();
+    List<string> allTasks = new List<string>();
+    SortedDictionary<int, string> priorityTasks = new SortedDictionary<int, string>();
+    HashSet<string> uniqueTasks = new HashSet<string>();
 
-    SortedList<int, string> songRatings = new SortedList<int, string>();
-
-    SortedDictionary<string, string> songGenres = new SortedDictionary<string, string>();
-
-    public void Addsong(string song, int rating, string artist)
+    // Add Task
+    public void AddTask(string task, int priority)
     {
-        playlist.AddLast(song);
-        songRatings[rating] = song;
-        songGenres[song] = artist;
-        Console.WriteLine($"Song'{song}' added");
+        if (uniqueTasks.Contains(task))
+        {
+            Console.WriteLine("Task already exists!");
+            return;
+        }
 
+        uniqueTasks.Add(task);
+        allTasks.Add(task);
+        taskQueue.Enqueue(task);
+        priorityTasks[priority] = task;
+
+        Console.WriteLine($"Added: {task}");
     }
 
-    public void RemoveSong(string song)
+    // Execute Task
+    public void ExecuteTask()
     {
-        playlist.Remove(song);
-
-        int KeyToRemove = -1;
-        foreach (var kvp in songRatings)
+        if (taskQueue.Count == 0)
         {
-            if (kvp.Value == song)
-            {
-                KeyToRemove = kvp.Key;
-                break;
-            }
-        }
-        if (KeyToRemove != -1)
-        {
-            songRatings.Remove(KeyToRemove);
-        }
-        //remore from artist
-        string artistToRemove = null;
-        foreach (var kvp in songGenres)
-        {
-            if (kvp.Value == song)
-            {
-                artistToRemove = kvp.Key;
-                break;
-            }
+            Console.WriteLine("No tasks to execute.");
+            return;
         }
 
-        if (artistToRemove != null)
-        {
-            songGenres.Remove(artistToRemove);
-        }
-            Console.WriteLine($"Song '{song}' removed");
-     }
+        string task = taskQueue.Dequeue();
+        undoStack.Push(task);
 
-    //Display Playlist
-    public void DisplayPlaylist()
-    {
-        Console.WriteLine("Playlist:");
-        foreach (var song in playlist)
-        {
-            Console.WriteLine(song);
-        }
+        Console.WriteLine($"Executed: {task}");
     }
 
-    //Display songs by rating
-    public void DisplaySongsByRating()
+    // Undo Last Task
+    public void UndoTask()
     {
-        Console.WriteLine("Songs by Rating:");
-        foreach (var kvp in songRatings)
+        if (undoStack.Count == 0)
         {
-            Console.WriteLine($"Rating: {kvp.Key}, Song: {kvp.Value}");
+            Console.WriteLine("Nothing to undo.");
+            return;
         }
+
+        string task = undoStack.Pop();
+        taskQueue.Enqueue(task);
+
+        Console.WriteLine($"Undo done: {task} added back");
     }
 
-    //Display songs by genre
-    public void DisplaySongsByGenre()
+    // Show Tasks
+    public void ShowTasks()
     {
-        Console.WriteLine("Songs by Genre:");
-        foreach (var kvp in songGenres)
-        {
-            Console.WriteLine($"Artist: {kvp.Key}, Song: {kvp.Value}");
-        }
+        Console.WriteLine("\nAll Tasks:");
+        foreach (var t in allTasks)
+            Console.WriteLine(t);
+    }
 
+    public void ShowQueue()
+    {
+        Console.WriteLine("\nTask Queue:");
+        foreach (var t in taskQueue)
+            Console.WriteLine(t);
+    }
 
-
+    public void ShowPriority()
+    {
+        Console.WriteLine("\nTasks by Priority:");
+        foreach (var t in priorityTasks)
+            Console.WriteLine($"Priority {t.Key} -> {t.Value}");
     }
 }
 
-
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        MusicPlaylistManager manager = new MusicPlaylistManager();
-        manager.Addsong("Song1", 5, "Artist1");
-        manager.Addsong("Song2", 4, "Artist2");
-        manager.Addsong("Song3", 3, "Artist3");
-        manager.DisplayPlaylist();
-        manager.DisplaySongsByRating();
-        manager.DisplaySongsByGenre();
-        manager.RemoveSong("Song2");
-        manager.DisplayPlaylist();
-        manager.DisplaySongsByRating();
-        manager.DisplaySongsByGenre();
+        TaskScheduler scheduler = new TaskScheduler();
+
+        scheduler.AddTask("Backup Database", 2);
+        scheduler.AddTask("Clean Temp Files", 3);
+        scheduler.AddTask("Update System", 1);
+
+        scheduler.ShowTasks();
+        scheduler.ShowQueue();
+        scheduler.ShowPriority();
+
+        scheduler.ExecuteTask();
+        scheduler.ExecuteTask();
+
+        scheduler.UndoTask();
+
+        scheduler.ShowQueue();
+
+        Console.ReadLine();
     }
 }
