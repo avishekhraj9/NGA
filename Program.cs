@@ -1,141 +1,130 @@
-﻿// See https://aka.ms/new-console-template for more information
-// Banking Transaction System
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-
-class Transaction
-{
-    public string TransactionId;
-    public double Amount;
-
-    public Transaction(string transactionId, double amount)
-    {
-        TransactionId = transactionId;
-        Amount = amount;
-    }
-}
-
-class BankingSystem
-{
-    private List<Transaction> transactionHistory = new List<Transaction>();
-    private Dictionary<string, double> accountBalances = new Dictionary<string, double>();
-    private Queue<Transaction> pendingTransaction = new Queue<Transaction>();
-    private Stack<Transaction> rollbackStack = new Stack<Transaction>();
-    private HashSet<string> transactionIds = new HashSet<string>();
-
-    public void CreateAccount(string accountId, double initialBalance)
-    {
-        accountBalances[accountId] = initialBalance;
-        Console.WriteLine("Account created: " + accountId + " with balance: " + initialBalance);
-    }
-
-    public void AddTransaction(string transactionId, double amount)
-    {
-        if (transactionIds.Contains(transactionId))
-        {
-            Console.WriteLine("Transaction ID already exists: " + transactionId);
-            return;
-        }
-        Transaction transaction = new Transaction(transactionId, amount);
-        pendingTransaction.Enqueue(transaction);
-        transactionIds.Add(transactionId);
-        Console.WriteLine("Transaction added: " + transactionId + " with amount: " + amount);
-    }
-
-    public void ProcessTransaction(string accoundId)
-    {
-        if (pendingTransaction.Count == 0)
-        {
-            Console.WriteLine("No pending transactions to process.");
-            return;
-        }
-        if (!accountBalances.ContainsKey(accoundId))
-        {
-            Console.WriteLine("Account does not exist: " + accoundId);
-            return;
-        }
-        Transaction transaction = pendingTransaction.Dequeue();
-        accountBalances[accoundId] += transaction.Amount;
-        transactionHistory.Add(transaction);
-        rollbackStack.Push(transaction);
-        Console.WriteLine($"Processed transaction: {transaction.TransactionId} for account: {accoundId}. New balance: {accountBalances[accoundId]}");
-    }
-
-
-    public void RollbackTransaction(string accoundId)
-    {
-        if (rollbackStack.Count == 0)
-        {
-            Console.WriteLine("No transactions to rollback.");
-            return;
-        }
-        if (!accountBalances.ContainsKey(accoundId))
-        {
-            Console.WriteLine("Account does not exist: " + accoundId);
-            return;
-        }
-        Transaction transaction = rollbackStack.Pop();
-        accountBalances[accoundId] -= transaction.Amount;
-        transactionHistory.Remove(transaction);
-        Console.WriteLine($"Rolled back transaction: {transaction.TransactionId} for account: {accoundId}. New balance: {accountBalances[accoundId]}");
-    }
-
-
-    public void ShowBalance(string accountId)
-    {
-        if (accountBalances.ContainsKey(accountId))
-        {
-            Console.WriteLine("Account: " + accountId + ", Balance: " + accountBalances[accountId]);
-        }
-        else
-        {
-            Console.WriteLine("Account does not exist: " + accountId);
-        }
-    }
-
-
-    public void ShowHistory()
-    {
-        Console.WriteLine("Transaction History:");
-        foreach (var transaction in transactionHistory)
-        {
-            Console.WriteLine($"Transaction ID: {transaction.TransactionId}, Amount: {transaction.Amount}");
-        }
-    }
-
-}
-
-
-
-
-
 
 class Program
 {
+    static List<string> posts = new List<string>();
+    static Dictionary<string, int> likes = new Dictionary<string, int>();
+    static HashSet<int> users = new HashSet<int>();
+    static Stack<string> actions = new Stack<string>();
+    static Queue<string> notifications = new Queue<string>();
+
     static void Main()
     {
-        BankingSystem bank = new BankingSystem();
-        bank.CreateAccount("A001", 1000);
+        while (true)
+        {
+            Console.WriteLine("\n===== Social Media System =====");
+            Console.WriteLine("1. Add User");
+            Console.WriteLine("2. Create Post");
+            Console.WriteLine("3. Like Post");
+            Console.WriteLine("4. Undo Last Action");
+            Console.WriteLine("5. Show Posts & Likes");
+            Console.WriteLine("6. Process Notifications");
+            Console.WriteLine("7. Exit");
 
-        bank.AddTransaction("T001", 200);
-        bank.AddTransaction("T002", -150);
-        bank.AddTransaction("T003", 300);
+            Console.Write("Enter choice: ");
+            int choice = Convert.ToInt32(Console.ReadLine());
 
+            switch (choice)
+            {
+                case 1:
+                    AddUser();
+                    break;
+                case 2:
+                    CreatePost();
+                    break;
+                case 3:
+                    LikePost();
+                    break;
+                case 4:
+                    Undo();
+                    break;
+                case 5:
+                    ShowPosts();
+                    break;
+                case 6:
+                    ProcessNotifications();
+                    break;
+                case 7:
+                    return;
+                default:
+                    Console.WriteLine("Invalid choice!");
+                    break;
+            }
+        }
+    }
 
-        bank.ProcessTransaction("A001");
-        bank.ProcessTransaction("A001");
+    static void AddUser()
+    {
+        Console.Write("Enter User ID: ");
+        int id = Convert.ToInt32(Console.ReadLine());
 
+        if (users.Add(id))
+            Console.WriteLine("User added successfully!");
+        else
+            Console.WriteLine("User already exists!");
+    }
 
-        bank.ShowBalance("A001");
+    static void CreatePost()
+    {
+        Console.Write("Enter post content: ");
+        string post = Console.ReadLine();
 
+        posts.Add(post);
+        likes[post] = 0;
 
-        bank.ShowHistory();
+        Console.WriteLine("Post created!");
+    }
 
-        bank.RollbackTransaction("A001");
+    static void LikePost()
+    {
+        Console.Write("Enter post to like: ");
+        string post = Console.ReadLine();
 
-        bank.ShowBalance("A001");
+        if (likes.ContainsKey(post))
+        {
+            likes[post]++;
+            actions.Push(post);
+            notifications.Enqueue(post + " got a like");
 
+            Console.WriteLine("Post liked!");
+        }
+        else
+        {
+            Console.WriteLine("Post not found!");
+        }
+    }
+
+    static void Undo()
+    {
+        if (actions.Count > 0)
+        {
+            string lastPost = actions.Pop();
+            likes[lastPost]--;
+
+            Console.WriteLine("Undo successful! Removed like from " + lastPost);
+        }
+        else
+        {
+            Console.WriteLine("No actions to undo!");
+        }
+    }
+
+    static void ShowPosts()
+    {
+        Console.WriteLine("\nPosts & Likes:");
+        foreach (var post in likes)
+        {
+            Console.WriteLine(post.Key + " -> " + post.Value + " likes");
+        }
+    }
+
+    static void ProcessNotifications()
+    {
+        Console.WriteLine("\nNotifications:");
+        while (notifications.Count > 0)
+        {
+            Console.WriteLine(notifications.Dequeue());
+        }
     }
 }
-
