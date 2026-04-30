@@ -1,33 +1,32 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using System;
+// file handling in #
+//Steps for file handling
 
-class Program
+//Step 1 Define a path
+
+string filepath = "sample.txt";
+string copypath = "copy.txt";
+
+try
 {
-    static void Main(string[] args)
-    {
-        // Create objects
-        OrderProcessor processor = new OrderProcessor();
+    //Step 2 Create a file
+    Console.WriteLine("Creating a file...");
+    File.Create(filepath).Close(); // Close the file stream after creating the file
 
-        EmailService emailService = new EmailService();
-        SMSService smsService = new SMSService();
-        LoggerService loggerService = new LoggerService();
+    //Step 3 Write to the file
+    Console.WriteLine("Writing to the file...");
+    File.WriteAllText(filepath, "Hello, this is a sample file.");
 
-        // Subscribe methods
-        processor.OnOrderPlaced += emailService.SendEmail;
-        processor.OnOrderPlaced += smsService.SendSMS;
-        processor.OnOrderPlaced += loggerService.LogOrder;
+    //Step 4 Append to the file
+    Console.WriteLine("Appending to the file...");
+    File.AppendAllText(filepath, "\nThis is an appended line.");
 
-        // Create order
-        Order order = new Order
-        {
-            OrderId = 101,
-            CustomerName = "Avishek",
-            Amount = 5000
-        };
-
-        // Place order
-        processor.PlaceOrder(order);
-
-        Console.ReadLine();
-    }
+    //Step 5 Read from the file
+    Console.WriteLine("Reading from the file...");
+    string content = File.ReadAllText(filepath);
+    Console.WriteLine(content);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"An error occurred: {ex.Message}");
 }
