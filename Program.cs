@@ -1,28 +1,59 @@
-﻿using System;
+﻿// See https://aka.ms/new-console-template for more information
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class Student
+{
+    public string Name { get; set; }
+    public int Marks { get; set; }
+    public int Attendance { get; set; }
+    public int Participation { get; set; }
+}
+
+public delegate void StudentEvaluation(Student student);
 
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        int[] arr = { 2, 4, 6, 8, 10, 12 };
+        List<Student> students = new List<Student>
+        {
+            new Student { Name = "Aman", Marks = 60, Attendance = 80, Participation = 70 },
+            new Student { Name = "Ravi", Marks = 45, Attendance = 60, Participation = 50 },
+            new Student { Name = "Neha", Marks = 75, Attendance = 90, Participation = 85 }
+        };
 
-        Console.Write("Enter number to search: ");
-        int target = Convert.ToInt32(Console.ReadLine());
+        // Anonymous Method
+        StudentEvaluation evaluate = delegate (Student s)
+        {
+            int total = s.Marks + s.Attendance + s.Participation;
 
-        // Linear Search
-        int linearResult = LinearSearch.Search(arr, target);
+            Console.WriteLine($"Student: {s.Name}");
+            Console.WriteLine($"Total Score: {total}");
 
-        if (linearResult != -1)
-            Console.WriteLine("Linear Search: Found at index " + linearResult);
-        else
-            Console.WriteLine("Linear Search: Not Found");
+            if (total > 200)
+                Console.WriteLine("Performance: Excellent");
+            else
+                Console.WriteLine("Performance: Average");
 
-        // Binary Search
-        int binaryResult = BinarySearch.Search(arr, target);
+            Console.WriteLine("---------------------");
+        };
 
-        if (binaryResult != -1)
-            Console.WriteLine("Binary Search: Found at index " + binaryResult);
-        else
-            Console.WriteLine("Binary Search: Not Found");
+        foreach (var student in students)
+        {
+            evaluate(student);
+        }
+
+        // Lambda Expression
+        Func<Student, bool> isEligible = s => s.Marks > 50;
+
+        var eligibleStudents = students.Where(s => s.Marks > 50).ToList();
+
+        Console.WriteLine("\nEligible Students:");
+        foreach (var s in eligibleStudents)
+        {
+            Console.WriteLine(s.Name);
+        }
     }
 }
