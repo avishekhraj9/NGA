@@ -1,32 +1,28 @@
-﻿// See https://aka.ms/new-console-template for more information
-// file handling in #
-//Steps for file handling
+﻿using System;
 
-//Step 1 Define a path
-
-string filepath = "sample.txt";
-string copypath = "copy.txt";
-
-try
+class Program
 {
-    //Step 2 Create a file
-    Console.WriteLine("Creating a file...");
-    File.Create(filepath).Close(); // Close the file stream after creating the file
+    static void Main()
+    {
+        int[] arr = { 2, 4, 6, 8, 10, 12 };
 
-    //Step 3 Write to the file
-    Console.WriteLine("Writing to the file...");
-    File.WriteAllText(filepath, "Hello, this is a sample file.");
+        Console.Write("Enter number to search: ");
+        int target = Convert.ToInt32(Console.ReadLine());
 
-    //Step 4 Append to the file
-    Console.WriteLine("Appending to the file...");
-    File.AppendAllText(filepath, "\nThis is an appended line.");
+        // Linear Search
+        int linearResult = LinearSearch.Search(arr, target);
 
-    //Step 5 Read from the file
-    Console.WriteLine("Reading from the file...");
-    string content = File.ReadAllText(filepath);
-    Console.WriteLine(content);
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"An error occurred: {ex.Message}");
+        if (linearResult != -1)
+            Console.WriteLine("Linear Search: Found at index " + linearResult);
+        else
+            Console.WriteLine("Linear Search: Not Found");
+
+        // Binary Search
+        int binaryResult = BinarySearch.Search(arr, target);
+
+        if (binaryResult != -1)
+            Console.WriteLine("Binary Search: Found at index " + binaryResult);
+        else
+            Console.WriteLine("Binary Search: Not Found");
+    }
 }
