@@ -1,0 +1,14 @@
+C:\Users\anand\source\repos\day11\DemoTestingApp\bin\Debug\net10.0\DemoTestingApp.exe
+C:\Users\anand\source\repos\day11\DemoTestingApp\bin\Debug\net10.0\DemoTestingApp.deps.json
+C:\Users\anand\source\repos\day11\DemoTestingApp\bin\Debug\net10.0\DemoTestingApp.runtimeconfig.json
+C:\Users\anand\source\repos\day11\DemoTestingApp\bin\Debug\net10.0\DemoTestingApp.dll
+C:\Users\anand\source\repos\day11\DemoTestingApp\bin\Debug\net10.0\DemoTestingApp.pdb
+C:\Users\anand\source\repos\day11\DemoTestingApp\obj\Debug\net10.0\DemoTestingApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\anand\source\repos\day11\DemoTestingApp\obj\Debug\net10.0\DemoTestingApp.AssemblyInfoInputs.cache
+C:\Users\anand\source\repos\day11\DemoTestingApp\obj\Debug\net10.0\DemoTestingApp.AssemblyInfo.cs
+C:\Users\anand\source\repos\day11\DemoTestingApp\obj\Debug\net10.0\DemoTestingApp.csproj.CoreCompileInputs.cache
+C:\Users\anand\source\repos\day11\DemoTestingApp\obj\Debug\net10.0\DemoTestingApp.dll
+C:\Users\anand\source\repos\day11\DemoTestingApp\obj\Debug\net10.0\refint\DemoTestingApp.dll
+C:\Users\anand\source\repos\day11\DemoTestingApp\obj\Debug\net10.0\DemoTestingApp.pdb
+C:\Users\anand\source\repos\day11\DemoTestingApp\obj\Debug\net10.0\DemoTestingApp.genruntimeconfig.cache
+C:\Users\anand\source\repos\day11\DemoTestingApp\obj\Debug\net10.0\ref\DemoTestingApp.dll
