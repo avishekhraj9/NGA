@@ -1,0 +1,7 @@
+C:\Users\anand\source\repos\day10\PracticalAssignment1\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\LibraryManagementSystem.exe.config
+C:\Users\anand\source\repos\day10\PracticalAssignment1\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\LibraryManagementSystem.exe
+C:\Users\anand\source\repos\day10\PracticalAssignment1\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\LibraryManagementSystem.pdb
+C:\Users\anand\source\repos\day10\PracticalAssignment1\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\LibraryManagementSystem.csproj.AssemblyReference.cache
+C:\Users\anand\source\repos\day10\PracticalAssignment1\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\LibraryManagementSystem.csproj.CoreCompileInputs.cache
+C:\Users\anand\source\repos\day10\PracticalAssignment1\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\LibraryManagementSystem.exe
+C:\Users\anand\source\repos\day10\PracticalAssignment1\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\LibraryManagementSystem.pdb
