@@ -1,0 +1,7 @@
+C:\Users\anand\source\repos\day15\DI_DEMO\DI_DEMO\bin\Debug\DI_DEMO.exe.config
+C:\Users\anand\source\repos\day15\DI_DEMO\DI_DEMO\bin\Debug\DI_DEMO.exe
+C:\Users\anand\source\repos\day15\DI_DEMO\DI_DEMO\bin\Debug\DI_DEMO.pdb
+C:\Users\anand\source\repos\day15\DI_DEMO\DI_DEMO\obj\Debug\DI_DEMO.csproj.AssemblyReference.cache
+C:\Users\anand\source\repos\day15\DI_DEMO\DI_DEMO\obj\Debug\DI_DEMO.csproj.CoreCompileInputs.cache
+C:\Users\anand\source\repos\day15\DI_DEMO\DI_DEMO\obj\Debug\DI_DEMO.exe
+C:\Users\anand\source\repos\day15\DI_DEMO\DI_DEMO\obj\Debug\DI_DEMO.pdb
