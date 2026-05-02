@@ -1,0 +1,11 @@
+C:\Users\anand\source\repos\day10\PracticalAssignment1\CalculatorLibrary\CalculatorLibrary\bin\Debug\net8.0\CalculatorLibrary.deps.json
+C:\Users\anand\source\repos\day10\PracticalAssignment1\CalculatorLibrary\CalculatorLibrary\bin\Debug\net8.0\CalculatorLibrary.dll
+C:\Users\anand\source\repos\day10\PracticalAssignment1\CalculatorLibrary\CalculatorLibrary\bin\Debug\net8.0\CalculatorLibrary.pdb
+C:\Users\anand\source\repos\day10\PracticalAssignment1\CalculatorLibrary\CalculatorLibrary\obj\Debug\net8.0\CalculatorLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\anand\source\repos\day10\PracticalAssignment1\CalculatorLibrary\CalculatorLibrary\obj\Debug\net8.0\CalculatorLibrary.AssemblyInfoInputs.cache
+C:\Users\anand\source\repos\day10\PracticalAssignment1\CalculatorLibrary\CalculatorLibrary\obj\Debug\net8.0\CalculatorLibrary.AssemblyInfo.cs
+C:\Users\anand\source\repos\day10\PracticalAssignment1\CalculatorLibrary\CalculatorLibrary\obj\Debug\net8.0\CalculatorLibrary.csproj.CoreCompileInputs.cache
+C:\Users\anand\source\repos\day10\PracticalAssignment1\CalculatorLibrary\CalculatorLibrary\obj\Debug\net8.0\CalculatorLibrary.dll
+C:\Users\anand\source\repos\day10\PracticalAssignment1\CalculatorLibrary\CalculatorLibrary\obj\Debug\net8.0\refint\CalculatorLibrary.dll
+C:\Users\anand\source\repos\day10\PracticalAssignment1\CalculatorLibrary\CalculatorLibrary\obj\Debug\net8.0\CalculatorLibrary.pdb
+C:\Users\anand\source\repos\day10\PracticalAssignment1\CalculatorLibrary\CalculatorLibrary\obj\Debug\net8.0\ref\CalculatorLibrary.dll
