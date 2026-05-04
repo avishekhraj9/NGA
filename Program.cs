@@ -1,20 +1,25 @@
-﻿using Serilog;
+using ReportingSystem.Interfaces;
+using ReportingSystem.Services;
 
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.File("log.txt")
-    .CreateLogger();
+var builder = WebApplication.CreateBuilder(args);
 
-try
-{
-    AuthService auth = new AuthService();
+// Add Razor Pages
+builder.Services.AddRazorPages();
 
-    auth.Register("admin", "1234");
+// Register dependencies (DIP)
+builder.Services.AddTransient<IReportGenerator, ReportGenerator>();
+builder.Services.AddTransient<IReportSaver, ReportSaver>();
 
-    bool success = auth.Login("admin", "1234");
+// Change this to ExcelFormatter to test OCP
+builder.Services.AddTransient<IReportFormatter, PdfFormatter>();
 
-    Console.WriteLine(success ? "Login Success" : "Login Failed");
-}
-catch (Exception ex)
-{
-    Log.Error(ex, "Something went wrong");
-}
+builder.Services.AddTransient<ReportService>();
+
+var app = builder.Build();
+
+app.UseStaticFiles();
+app.UseRouting();
+
+app.MapRazorPages();
+
+app.Run();
