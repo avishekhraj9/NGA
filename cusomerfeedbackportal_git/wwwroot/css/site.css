@@ -1,0 +1,39 @@
+body {
+    font-family: Arial;
+    margin: 20px;
+}
+
+.form-control {
+    width: 300px;
+    padding: 8px;
+}
+
+.text-danger {
+    color: red;
+}
+
+.btn {
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: blue;
+    color: white;
+}
+
+.btn-success {
+    background-color: green;
+    color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+    padding: 10px;
+}

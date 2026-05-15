@@ -1,0 +1,108 @@
+﻿@model CustomerFeedbackPortal.Models.Feedback
+
+@{
+    ViewData["Title"] = "Submit Feedback";
+}
+
+<h2>Customer Feedback Form</h2>
+
+<form asp-action="Create" method="post">
+
+    <div>
+        <label>Name</label><br />
+
+        @Html.TextBoxFor(m => m.Name, new
+        {
+            @class = "form-control",
+            placeholder = "Enter your name"
+        })
+
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Email</label><br />
+
+        @Html.TextBoxFor(m => m.Email, new
+        {
+            @class = "form-control",
+            placeholder = "Enter your email"
+        })
+
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Rating</label><br />
+
+        @Html.DropDownListFor(m => m.Rating,
+            new List<SelectListItem>
+            {
+                new SelectListItem { Text = "1", Value = "1"},
+                new SelectListItem { Text = "2", Value = "2"},
+                new SelectListItem { Text = "3", Value = "3"},
+                new SelectListItem { Text = "4", Value = "4"},
+                new SelectListItem { Text = "5", Value = "5"}
+            },
+            "Select Rating",
+            new { @class = "form-control" })
+
+        <span asp-validation-for="Rating" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Visual Rating</label><br />
+
+        <star-rating max-stars="5"></star-rating>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Comments</label><br />
+
+        @Html.TextAreaFor(m => m.Comments, 5, 40, new
+        {
+            @class = "form-control",
+            placeholder = "Write your feedback"
+        })
+
+        <span asp-validation-for="Comments" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Custom Styled Input</label><br />
+
+        @Html.StyledInput(
+            "CustomField",
+            "Custom Placeholder",
+            "form-control")
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">
+        Submit Feedback
+    </button>
+
+</form>
+
+<br />
+
+<a asp-action="Index" class="btn btn-success">
+    View Submitted Feedback
+</a>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
