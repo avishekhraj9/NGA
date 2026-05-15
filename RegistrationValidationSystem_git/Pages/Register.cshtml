@@ -1,0 +1,65 @@
+﻿@page
+@model RegistrationValidationSystem.Pages.RegisterModel
+
+@{
+    ViewData["Title"] = "User Registration";
+}
+
+<h2>User Registration Form</h2>
+
+<form method="post">
+
+    <!-- Validation Summary -->
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <!-- Username -->
+    <div class="mb-3">
+        <label asp-for="UserData.Username" class="form-label"></label>
+
+        <input asp-for="UserData.Username" class="form-control" />
+
+        <span asp-validation-for="UserData.Username"
+              class="text-danger"></span>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+        <label asp-for="UserData.Email" class="form-label"></label>
+
+        <input asp-for="UserData.Email" class="form-control" />
+
+        <span asp-validation-for="UserData.Email"
+              class="text-danger"></span>
+    </div>
+
+    <!-- Password -->
+    <div class="mb-3">
+        <label asp-for="UserData.Password" class="form-label"></label>
+
+        <input asp-for="UserData.Password" class="form-control" />
+
+        <span asp-validation-for="UserData.Password"
+              class="text-danger"></span>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="mb-3">
+        <label asp-for="UserData.ConfirmPassword"
+               class="form-label"></label>
+
+        <input asp-for="UserData.ConfirmPassword"
+               class="form-control" />
+
+        <span asp-validation-for="UserData.ConfirmPassword"
+              class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Register
+    </button>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
